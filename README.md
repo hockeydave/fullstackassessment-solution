@@ -70,7 +70,7 @@ npm update
 ### Check out the repository
 
 ```sh
-git clone git@bitbucket.org:alignai/fullstackassessment.git`
+git clone git@bitbucket.org:hockey_dave/fullstackassessment.git`
 ```
 
 ### Create a new branch from master branch with your name 
