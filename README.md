@@ -62,13 +62,12 @@ npm install -global react-scripts
 ```
 ### Check out the repository 
 
-### Update `libs`
+### Update `libs in todo-client`
 ```sh
-npm update
+cd todo-client;npm update; cd ..
 ```
-```
-### Check out the repository
 
+### Check out the repository
 ```sh
 git clone git@bitbucket.org:hockey_dave/fullstackassessment.git`
 ```
@@ -95,11 +94,11 @@ If all loads, you should be good to go 👍
 
 ## Functional Requirements 
 
-### No todos
+### If there are no todos in your list
 
 When there are no todos, `#main` and `#footer` should be hidden.
 
-### New todo
+### Creating a new todo
 
 New todos are entered in the input at the top of the app. The input element should be focused when the page is loaded,
 preferably by using the `autofocus` input attribute. Pressing Enter creates the todo, appends it to the todo list,

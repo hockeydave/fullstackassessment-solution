@@ -13,6 +13,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
+/**
+ * Controller for handing web requests coming into the todos rest endpoint
+ */
 @Controller
 @RequestMapping(value = "/todos")
 public class TodoController {
