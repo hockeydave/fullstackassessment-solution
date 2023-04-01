@@ -25,12 +25,11 @@ import static org.springframework.test.util.AssertionErrors.*;
 class TodoControllerTest {
     @Autowired
     private  TodoRepository todoRepository;
-    private TodoService todoService;
     private TodoController todoController;
 
     @BeforeEach
     void setUp() {
-        todoService = new TodoService(todoRepository);
+        TodoService todoService = new TodoService(todoRepository);
         todoController = new TodoController(todoService);
         todoController.create(new TodoDto(1L, "Setup1", true));
         todoController.create(new TodoDto(2L, "Setup2", false));
