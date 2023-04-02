@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.*;
 
 
@@ -33,15 +34,15 @@ class TodoControllerTest {
     void setUp() {
         TodoService todoService = new TodoService(todoRepository);
         todoController = new TodoController(todoService);
-        todoController.create(new TodoDto(1L, "Setup1", true));
-        todoController.create(new TodoDto(2L, "Setup2", false));
-        todoController.create(new TodoDto(3L, "Setup3", false));
+        todoController.create(new TodoDto(1L, "TodoControllerTest Setup1", true));
+        todoController.create(new TodoDto(2L, "TodoControllerTest Setup2", false));
+        todoController.create(new TodoDto(3L, "TodoControllerTest Setup3", false));
     }
 
-    @Test @Order(4)
+    @Test @Order(3)
     void create() {
-        TodoDto dto = todoController.create(new TodoDto(1L, "Create 1", false));
-        assertEquals("TodoControllerTest create title check", "Create 1", dto.getTitle());
+        TodoDto dto = todoController.create(new TodoDto(1L, "TodoControllerTest Create 1", false));
+        assertEquals("TodoControllerTest create title check", "TodoControllerTest Create 1", dto.getTitle());
         assertFalse("TodoControllerTest create complete check", dto.getCompleted());
     }
 
@@ -54,23 +55,44 @@ class TodoControllerTest {
     @Test @Order(2)
     void getTodo() throws NotFoundException {
         TodoDto dto = todoController.get(1L);
-        assertEquals("TodoControllerTest getTodo Title", "Setup1", dto.getTitle());
+        assertEquals("TodoControllerTest getTodo Title", "TodoControllerTest Setup1", dto.getTitle());
         assertTrue("TodoControllerTest getTodo id completed", dto.getCompleted());
         assertEquals("TodoControllerTest getTodo id", 1L, dto.getId());
     }
 
-    @Test @Order(4)
+    @Test @Order(3)
     void put() {
-        TodoDto dto = todoController.create(new TodoDto(1L, "Put 1", false));
+        TodoDto dto = todoController.create(new TodoDto(1L, "TodoControllerTest Put 1", false));
         TodoDto savedDto = todoController.put(1L, dto);
-        assertEquals("TodoControllerTest put title", "Put 1", savedDto.getTitle());
+        assertEquals("TodoControllerTest put title", "TodoControllerTest Put 1", savedDto.getTitle());
         assertFalse("TodoControllerTest put completed", savedDto.getCompleted());
     }
 
-    @Test @Order(3)
+    @Test @Order(4)
     void deleteById() {
-        todoController.deleteById(1L);
-        List<TodoDto> dtos = todoController.get();
-        assertEquals("TodoControllerTest deleteById", 2, dtos.size());
+        List<TodoDto> todos = todoController.get();
+        TodoDto found = null;
+        for(int i = 0; i < todos.size(); i++) {
+            TodoDto t = todos.get(i+1);
+            if(t.getTitle().contains("TodoControllerTest")) {
+                found = t;
+                break;
+            }
+        }
+
+        if(found != null) {
+            final long index = found.getId();
+            todoController.deleteById(index);
+            NotFoundException thrown = assertThrows(
+                    NotFoundException.class,
+                    () -> todoController.get(index),
+                    "TodoControllerTest Expected getTodo() to throw NotFoundException, but it didn't"
+            );
+
+            assertTrue("TodoControllerTest deleteTodo failed to find",
+                    thrown.getMessage().contentEquals("Todo does not exist"));
+        } else {
+            assertFalse("TodoControllerTest delete failed to find", true);
+        }
     }
 }
