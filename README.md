@@ -60,7 +60,10 @@ npm install -global react
 ```sh
 npm install -global react-scripts
 ```
-### Check out the repository 
+### Install `eslint-plugin-cypress`
+```sh
+npm install -global eslint-plugin-cypress --save-dev
+```
 
 ### Update `libs in todo-client`
 ```sh
