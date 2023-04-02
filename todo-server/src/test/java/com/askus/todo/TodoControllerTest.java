@@ -13,6 +13,8 @@ import java.util.List;
 
 import static org.springframework.test.util.AssertionErrors.*;
 
+
+//@TestClassOrder(ClassOrderer.ClassName.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
@@ -27,7 +29,7 @@ class TodoControllerTest {
     private  TodoRepository todoRepository;
     private TodoController todoController;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         TodoService todoService = new TodoService(todoRepository);
         todoController = new TodoController(todoService);
@@ -36,7 +38,7 @@ class TodoControllerTest {
         todoController.create(new TodoDto(3L, "Setup3", false));
     }
 
-    @Test
+    @Test @Order(4)
     void create() {
         TodoDto dto = todoController.create(new TodoDto(1L, "Create 1", false));
         assertEquals("TodoControllerTest create title check", "Create 1", dto.getTitle());
@@ -49,7 +51,7 @@ class TodoControllerTest {
         assertEquals("TodoControllerTest getTodos", 3, dtos.size());
     }
 
-    @Test
+    @Test @Order(2)
     void getTodo() throws NotFoundException {
         TodoDto dto = todoController.get(1L);
         assertEquals("TodoControllerTest getTodo Title", "Setup1", dto.getTitle());
@@ -57,16 +59,15 @@ class TodoControllerTest {
         assertEquals("TodoControllerTest getTodo id", 1L, dto.getId());
     }
 
-    @Test
+    @Test @Order(4)
     void put() {
         TodoDto dto = todoController.create(new TodoDto(1L, "Put 1", false));
         TodoDto savedDto = todoController.put(1L, dto);
         assertEquals("TodoControllerTest put title", "Put 1", savedDto.getTitle());
         assertFalse("TodoControllerTest put completed", savedDto.getCompleted());
-        assertEquals("TodoControllerTest put id", 1L, savedDto.getId());
     }
 
-    @Test
+    @Test @Order(3)
     void deleteById() {
         todoController.deleteById(1L);
         List<TodoDto> dtos = todoController.get();

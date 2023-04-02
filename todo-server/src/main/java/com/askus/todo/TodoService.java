@@ -63,7 +63,7 @@ public class TodoService {
 
     /**
      * Delete a Todo referenced by primary key id in the todoRepository
-     * @param id
+     * @param id database primary key of item to delete
      */
     public void deleteTodo(Long id) {
         todoRepository.deleteById(id);

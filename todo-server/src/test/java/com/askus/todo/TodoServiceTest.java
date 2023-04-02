@@ -13,6 +13,8 @@ import java.util.List;
 
 import static org.springframework.test.util.AssertionErrors.*;
 
+//@TestClassOrder(ClassOrderer.ClassName.class)
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
@@ -40,10 +42,10 @@ class TodoServiceTest {
      void tearDown() {
     }
 
-    @Test
+    @Test @Order(3)
     void createTodo() {
-        Todo todo = todoService.createTodo(new Todo(1L, "CreateTodo Service Test", false));
-        assertEquals("TodoServiceTest createTodo Title not saved", "CreateTodo Service Test", todo.getTitle()  );
+        Todo todo = todoService.createTodo(new Todo(1L, "TodoServiceTest CreateTodo", false));
+        assertEquals("TodoServiceTest createTodo Title not saved", "TodoServiceTest CreateTodo", todo.getTitle()  );
         assertFalse("TodoServiceTest createTodo completed boolean not saved", todo.getCompleted());
     }
 
@@ -53,15 +55,15 @@ class TodoServiceTest {
         assertEquals("TodoServiceTest getTodos", 3, todos.size());
     }
 
-    @Test
+    @Test @Order(2)
     void getTodo() throws NotFoundException {
-        Todo t = todoService.getTodo(1L);
-        assertEquals("TodoServiceTest getTodo  Title", "Setup1", t.getTitle());
-        assertTrue("TodoServiceTest getTodo  completed", t.getCompleted());
-        assertEquals("TodoServiceText getTodo id", 1L, t.getId());
+        Todo t = todoService.getTodo(2L);
+        assertEquals("TodoServiceTest getTodo  Title", "Setup2", t.getTitle());
+        assertFalse("TodoServiceTest getTodo  completed", t.getCompleted());
+        assertEquals("TodoServiceText getTodo id", 2L, t.getId());
     }
 
-    @Test
+    @Test @Order(3)
     void updateTodo() throws NotFoundException {
         Todo t = todoService.getTodo(2L);
         t.setCompleted(false);
@@ -72,9 +74,9 @@ class TodoServiceTest {
         assertEquals("TodoServiceTest updateTodo  id ", 2L, t1.getId());
     }
 
-    @Test
+    @Test @Order(4)
     void deleteTodo() {
-        todoService.deleteTodo(1L);
+        todoService.deleteTodo(3L);
         List<Todo> todos = todoService.getTodos();
         assertEquals("TodoServiceTest deleteTodo", 2, todos.size());
     }
