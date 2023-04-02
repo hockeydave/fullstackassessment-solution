@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,14 +30,17 @@ class TodoControllerTest {
     @Autowired
     private  TodoRepository todoRepository;
     private TodoController todoController;
+    // Because TodServiceTest and TodoControllerTest can run in parallel, the primary key may not be what is expected
+    private List<TodoDto> setupTodos;
 
     @BeforeAll
     void setUp() {
         TodoService todoService = new TodoService(todoRepository);
         todoController = new TodoController(todoService);
-        todoController.create(new TodoDto(1L, "TodoControllerTest Setup1", true));
-        todoController.create(new TodoDto(2L, "TodoControllerTest Setup2", false));
-        todoController.create(new TodoDto(3L, "TodoControllerTest Setup3", false));
+        setupTodos = new ArrayList<>();
+        setupTodos.add(todoController.create(new TodoDto(1L, "TodoControllerTest Setup1", true)));
+        setupTodos.add(todoController.create(new TodoDto(2L, "TodoControllerTest Setup2", false)));
+        setupTodos.add(todoController.create(new TodoDto(3L, "TodoControllerTest Setup3", false)));
     }
 
     @Test @Order(3)
@@ -54,18 +58,19 @@ class TodoControllerTest {
 
     @Test @Order(2)
     void getTodo() throws NotFoundException {
-        TodoDto dto = todoController.get(1L);
+        TodoDto dto = todoController.get(setupTodos.get(0).getId());
         assertEquals("TodoControllerTest getTodo Title", "TodoControllerTest Setup1", dto.getTitle());
         assertTrue("TodoControllerTest getTodo id completed", dto.getCompleted());
-        assertEquals("TodoControllerTest getTodo id", 1L, dto.getId());
+        assertEquals("TodoControllerTest getTodo id", setupTodos.get(0).getId(), dto.getId());
     }
 
     @Test @Order(3)
     void put() {
-        TodoDto dto = todoController.create(new TodoDto(1L, "TodoControllerTest Put 1", false));
-        TodoDto savedDto = todoController.put(1L, dto);
+        TodoDto dto = todoController.create(new TodoDto(setupTodos.get(1).getId(), "TodoControllerTest Put 1", false));
+        TodoDto savedDto = todoController.put(setupTodos.get(1).getId(), dto);
         assertEquals("TodoControllerTest put title", "TodoControllerTest Put 1", savedDto.getTitle());
         assertFalse("TodoControllerTest put completed", savedDto.getCompleted());
+        assertEquals("TodoControllerTest getTodo id", setupTodos.get(1).getId(), savedDto.getId());
     }
 
     @Test @Order(4)

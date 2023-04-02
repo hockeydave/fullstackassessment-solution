@@ -31,13 +31,16 @@ class TodoServiceTest {
     private   TodoRepository todoRepository;
 
     private   TodoService todoService;
+    // Because TodServiceTest and TodoControllerTest can run in parallel, the primary key may not be what is expected
+    private List<Todo> setupTodos;
 
     @BeforeAll
      void setUp() {
         todoService = new TodoService(todoRepository);
-        todoService.createTodo(new Todo(1L, "TodoServiceTest Setup1", true));
-        todoService.createTodo(new Todo(2L, "TodoServiceTest Setup2", false));
-        todoService.createTodo(new Todo(3L, "TodoServiceTest Setup3", false));
+        setupTodos = new ArrayList<>();
+        setupTodos.add(todoService.createTodo(new Todo(1L, "TodoServiceTest Setup1", true)));
+        setupTodos.add(todoService.createTodo(new Todo(2L, "TodoServiceTest Setup2", false)));
+        setupTodos.add(todoService.createTodo(new Todo(3L, "TodoServiceTest Setup3", false)));
     }
 
     @AfterAll
@@ -66,21 +69,21 @@ class TodoServiceTest {
 
     @Test @Order(2)
     void getTodo() throws NotFoundException {
-        Todo t = todoService.getTodo(2L);
+        Todo t = todoService.getTodo(setupTodos.get(1).getId());
         assertEquals("TodoServiceTest getTodo  Title", "TodoServiceTest Setup2", t.getTitle());
         assertFalse("TodoServiceTest getTodo  completed", t.getCompleted());
-        assertEquals("TodoServiceText getTodo id", 2L, t.getId());
+        assertEquals("TodoServiceText getTodo id", setupTodos.get(1).getId(), t.getId());
     }
 
     @Test @Order(3)
     void updateTodo() throws NotFoundException {
-        Todo t = todoService.getTodo(2L);
+        Todo t = todoService.getTodo(setupTodos.get(1).getId());
         t.setCompleted(false);
         t.setTitle("TodoServiceTest updateTodo");
-        Todo t1 = todoService.updateTodo(2L, t);
+        Todo t1 = todoService.updateTodo(setupTodos.get(1).getId(), t);
         assertEquals("TodoServiceTest updateTodo title ", "TodoServiceTest updateTodo", t1.getTitle() );
         assertFalse("TodoServiceTest updateTodo completed ", t1.getCompleted());
-        assertEquals("TodoServiceTest updateTodo  id ", 2L, t1.getId());
+        assertEquals("TodoServiceTest updateTodo  id ", setupTodos.get(1).getId(), t1.getId());
     }
 
     @Test @Order(4)
