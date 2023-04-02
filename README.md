@@ -111,7 +111,7 @@ and clears the input. Make sure to `.trim()` the input and then check that it's 
 
 This checkbox toggles all the todos to the same state as itself. Make sure to clear the checked state after the
 "Clear completed" button is clicked. The "Mark all as complete" checkbox should also be updated when single todo
-items are checked/unchecked. Eg. When all the todos are checked it should also get checked.
+items are checked/unchecked. E.g. When all the todos are checked it should also get checked.
 
 ### Item
 
