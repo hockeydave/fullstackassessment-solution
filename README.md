@@ -9,8 +9,19 @@ An ideal submission would have a:
 1.  Minimally complete API to facilitate the requirements of the client 
 2.  Minimally complete Todo List view to support the functionality listed below.
 3.  Reasonable test coverage on both the API and UI
+### Testing `backend`:
+```sh
+cd todo-server;./graldw clean build test
+```
+### Testing `frontend`:
+```sh
+cd todo-client;yarn  test
+```
 
-**We understand that this is a short time window and don't expect a fully completed application**. We'd prefer not to take up more than 4 hours of your time, so no need for extensive styling; we are more concerned with the foundational criteria mentioned above. If you aren't able to finish everything, no problem, we can discuss how you'd finish when we review it together 🙂
+**We understand that this is a short time window and don't expect a fully completed application**. 
+We'd prefer not to take up more than 4 hours of your time, so no need for extensive styling; we are more
+concerned with the foundational criteria mentioned above. If you aren't able to finish everything, 
+no problem, we can discuss how you'd finish when we review it together 🙂
 
 ## Set Up
 
