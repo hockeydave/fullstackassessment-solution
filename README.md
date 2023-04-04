@@ -114,11 +114,13 @@ Navigate your shell to the project directory/todo-client and run  yarn start
 - If you are using intellij, use the guide (displayed below for your convenience) [following](https://stackoverflow.com/a/45640726) to enable classpath reloading:
     -  Enable **"Build project automatically"** from Settings->Build, Execution, Deployment->Compiler
     -  Go to Registry(CMD-Shift-O, navigate to actions, and type "Registry") and enable **compiler.automake.allow.when.app.running** and **ide.windowSystem.autoShowProcessPopup**
-If all loads, you should be good to go 👍
+
+    - If all loads, you should be good to go 👍
 
 ### Notes for FrontEnd React Candidates:
 - Webpack Dev Server should launch automatically in the default browsers at `localhost:3000`
-If all loads, you should be good to go 👍
+
+- If all loads, you should be good to go 👍
 
 ## Functional Requirements 
 
@@ -160,7 +162,7 @@ be destroyed. If escape is pressed during the edit, the edit state should be lef
 Displays the number of active todos in a pluralized form. Make sure the number is wrapped by a `<strong>` tag. 
 Also make sure to pluralize the `item` word correctly: `0 items`, `1 item`, `2 items`. Example: **2** items left
 
-### Clear completed button
+### Clear completed button (optional for full stack, required for front-end React candidates)
 
 Removes completed todos when clicked. Should be hidden when there are no completed todos.
 
@@ -171,7 +173,7 @@ and Webpack Dev Server proxying to `localhost:8080`. Make sure to use this forma
 `todos`. Editing mode should not be persisted.
 #### Full Stack Candidates
 Your app should add API support with `axios`
-and Webpack Dev Server proxying to `localhost:8080`. 
+and Webpack Dev Server proxying to `localhost:8080` running your springboot web services. 
 Editing mode should not be persisted.
 
 ### Routing
