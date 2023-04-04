@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Todo class representation for a "To Do" item
+ */
 @Entity
 public class Todo {
 

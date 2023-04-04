@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.*;
 
 
-//@TestClassOrder(ClassOrderer.ClassName.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
@@ -30,7 +29,10 @@ class TodoControllerTest {
     @Autowired
     private TodoRepository todoRepository;
     private TodoController todoController;
-    // Because TodServiceTest and TodoControllerTest can run in parallel, the primary key may not be what is expected
+    /*
+        Because TodServiceTest and TodoControllerTest can run in parallel, the primary key may not be what is expected
+        when inserted so keep track of the database primary keys.
+     */
     private List<TodoDto> setupTodos;
 
     @BeforeAll

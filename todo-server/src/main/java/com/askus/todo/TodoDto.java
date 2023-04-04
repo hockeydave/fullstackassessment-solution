@@ -2,6 +2,9 @@ package com.askus.todo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * DTO representation of a Todo class object
+ */
 public class TodoDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
