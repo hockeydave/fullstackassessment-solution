@@ -12,8 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.util.AssertionErrors.*;
 
 //@TestClassOrder(ClassOrderer.ClassName.class)
 
@@ -107,11 +107,19 @@ class TodoServiceTest {
     }
 
     /**
-     * Test deleting the 3rd Todo created in Setup
+     * Test deleting the 3rd Todo created in Setup can be successfully deleted
      */
     @Test
     @Order(4)
     void deleteTodo() {
         todoService.deleteTodo(setupTodos.get(2).getId());
+        NotFoundException thrown = assertThrows(
+                NotFoundException.class,
+                () -> todoService.getTodo(setupTodos.get(2).getId()),
+                "Expected todoController.get to throw NotFoundException, but it didn't"
+        );
+
+        assertTrue("TodoControllerTest deleteById get()",
+                thrown.getMessage().contentEquals("Todo does not exist"));
     }
 }
