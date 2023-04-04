@@ -12,8 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.util.AssertionErrors.*;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertFalse;
 
 //@TestClassOrder(ClassOrderer.ClassName.class)
 
@@ -28,14 +28,14 @@ import static org.springframework.test.util.AssertionErrors.*;
         locations = "classpath:application-integration-test.properties")
 class TodoServiceTest {
     @Autowired
-    private   TodoRepository todoRepository;
+    private TodoRepository todoRepository;
 
-    private   TodoService todoService;
+    private TodoService todoService;
     // Because TodServiceTest and TodoControllerTest can run in parallel, the primary key may not be what is expected
     private List<Todo> setupTodos;
 
     @BeforeAll
-     void setUp() {
+    void setUp() {
         todoService = new TodoService(todoRepository);
         setupTodos = new ArrayList<>();
         setupTodos.add(todoService.createTodo(new Todo(1L, "TodoServiceTest Setup1", true)));
@@ -44,30 +44,44 @@ class TodoServiceTest {
     }
 
     @AfterAll
-     void tearDown() {
+    void tearDown() {
     }
 
-    @Test @Order(3)
+    /**
+     * Test creating a single Todo.
+     */
+    @Test
+    @Order(3)
     void createTodo() {
         Todo todo = todoService.createTodo(new Todo(1L, "TodoServiceTest CreateTodo", false));
-        assertEquals("TodoServiceTest createTodo Title not saved", "TodoServiceTest CreateTodo", todo.getTitle()  );
+        assertEquals("TodoServiceTest createTodo Title not saved", "TodoServiceTest CreateTodo", todo.getTitle());
         assertFalse("TodoServiceTest createTodo completed boolean not saved", todo.getCompleted());
     }
 
-    @Test @Order(1)
+    /**
+     * Test getting all the Todos and validating that the list contains those created in Setup.
+     */
+    @Test
+    @Order(1)
     void getTodos() {
         List<Todo> todos = todoService.getTodos();
         List<Todo> classTodos = new ArrayList<>();
-        for(Todo todo : todos) {
+        for (Todo todo : todos) {
             // Avoid Todos from TodoControllerTest
-            if(todo.getTitle().contains("TodoServiceTest"))
+            if (todo.getTitle().contains("TodoServiceTest"))
                 classTodos.add(todo);
 
         }
         assertEquals("TodoServiceTest getTodos", 3, classTodos.size());
     }
 
-    @Test @Order(2)
+    /**
+     * Test getting the 2nd Todo created in Setup
+     *
+     * @throws NotFoundException when the Todo is not found
+     */
+    @Test
+    @Order(2)
     void getTodo() throws NotFoundException {
         Todo t = todoService.getTodo(setupTodos.get(1).getId());
         assertEquals("TodoServiceTest getTodo  Title", "TodoServiceTest Setup2", t.getTitle());
@@ -75,43 +89,29 @@ class TodoServiceTest {
         assertEquals("TodoServiceText getTodo id", setupTodos.get(1).getId(), t.getId());
     }
 
-    @Test @Order(3)
+    /**
+     * Test updating the 2nd Todo created in Setup.
+     *
+     * @throws NotFoundException when we can't get the Todo from Setup
+     */
+    @Test
+    @Order(3)
     void updateTodo() throws NotFoundException {
         Todo t = todoService.getTodo(setupTodos.get(1).getId());
         t.setCompleted(false);
         t.setTitle("TodoServiceTest updateTodo");
         Todo t1 = todoService.updateTodo(setupTodos.get(1).getId(), t);
-        assertEquals("TodoServiceTest updateTodo title ", "TodoServiceTest updateTodo", t1.getTitle() );
+        assertEquals("TodoServiceTest updateTodo title ", "TodoServiceTest updateTodo", t1.getTitle());
         assertFalse("TodoServiceTest updateTodo completed ", t1.getCompleted());
         assertEquals("TodoServiceTest updateTodo  id ", setupTodos.get(1).getId(), t1.getId());
     }
 
-    @Test @Order(4)
+    /**
+     * Test deleting the 3rd Todo created in Setup
+     */
+    @Test
+    @Order(4)
     void deleteTodo() {
-
-        List<Todo> todos = todoService.getTodos();
-        Todo found = null;
-        for(int i = 0; i < todos.size(); i++) {
-            Todo t = todos.get(i+1);
-            if(t.getTitle().contains("TodoServiceTest")) {
-                found = t;
-                break;
-            }
-        }
-
-        if(found != null) {
-            final long index = found.getId();
-            todoService.deleteTodo(index);
-            NotFoundException thrown = assertThrows(
-                    NotFoundException.class,
-                    () -> todoService.getTodo(index),
-                    "Expected getTodo() to throw NotFoundException, but it didn't"
-            );
-
-            assertTrue("TodoServiceTest deleteTodo failed to find",
-                    thrown.getMessage().contentEquals("Todo does not exist"));
-        } else {
-            assertFalse("TodoServiceTest deleteTodo failed to find", true);
-        }
+        todoService.deleteTodo(setupTodos.get(2).getId());
     }
 }

@@ -11,7 +11,7 @@ An ideal submission would have a:
 3.  Reasonable test coverage on both the API and UI
 ### Testing `backend`:
 ```sh
-cd todo-server;./graldw clean build test
+cd todo-server;./gradlew clean build test
 ```
 ### Testing `frontend`:
 ```sh
@@ -25,14 +25,16 @@ no problem, we can discuss how you'd finish when we review it together 🙂
 
 ## Set Up
 
-This should work cross-platform, but ideally should be used in a Unix, or Linux environment. If you are unable to install the following, please continue implementing the logic to the best of your ability and let us know in the review.
+This should work cross-platform, but ideally should be used in a Linux, or Unix environment. 
+If you are unable to install the following, please continue implementing the logic to the best of your 
+ability and let us know in the review.
 
 ### Install SDK-Man Version Manager
 1. Open a terminal
 2. Enter `curl -s "https://get.sdkman.io" | bash`
 3. Using SDK-Man, run the following commands to download:
     - Java-11 JDK: `sdk install java 11.0.8-amzn`
-4. You can use jenv if you have multiple Java versions installed
+4. You can use jenv to set your java environment version if you have multiple Java versions installed
 5. Install [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) and install the current LTS version by running the following commands:
 
 ### Install `nvm`:
@@ -93,7 +95,7 @@ git checkout -b assessment/<first>-<last>
 
 ### Run the startup script
 
-Navigate your shell to the project directory and run  `./run.sh` to tail logs for both client and server.
+Navigate your shell to the project directory and run  `./run.sh` to run and tail logs for both client and server.
 
 ### Notes
 - The server run will on `localhost:8080`
