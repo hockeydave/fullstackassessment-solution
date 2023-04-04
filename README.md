@@ -2,18 +2,21 @@
 
 ![](todo.png)
 
-Complete a full-stack implementation in Spring Boot and React to support the following functionality in 4 hours. The tooling is in place and requires Java 11, Gradle, NodeJS, and Yarn.
+## Full Stack Applicants:
+Complete a full-stack implementation in Spring Boot and React to support the following functionality in 4 hours. 
+The tooling is in place and requires git, Java 11, Gradle, NodeJS, npm, nvm, concurrent, and Yarn.
 
 An ideal submission would have a:
 
 1.  Minimally complete API to facilitate the requirements of the client 
 2.  Minimally complete Todo List view to support the functionality listed below.
 3.  Reasonable test coverage on both the API and UI
-### Testing `backend`:
+## Full Stack Candidates test both back and Front end. Front End React Candidates test only front end
+### Full Stack Candidates, Testing `backend`:
 ```sh
 cd todo-server;./gradlew clean build test
 ```
-### Testing `frontend`:
+### Front End React Candidates Testing `frontend`:
 ```sh
 cd todo-client;yarn  test
 ```
@@ -29,13 +32,15 @@ This should work cross-platform, but ideally should be used in a Linux, or Unix 
 If you are unable to install the following, please continue implementing the logic to the best of your 
 ability and let us know in the review.
 
-### Install SDK-Man Version Manager
+### For full stack candidates:  Install SDK-Man Version Manager to install Java
 1. Open a terminal
 2. Enter `curl -s "https://get.sdkman.io" | bash`
 3. Using SDK-Man, run the following commands to download:
     - Java-11 JDK: `sdk install java 11.0.8-amzn`
 4. You can use jenv to set your java environment version if you have multiple Java versions installed
 5. Install [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) and install the current LTS version by running the following commands:
+### For Front End React candidates:  Install just node
+1.  Install [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) and install the current LTS version by running the following commands:
 
 ### Install `nvm`:
 ```sh
@@ -93,11 +98,15 @@ git clone git@bitbucket.org:hockey_dave/fullstackassessment.git`
 git checkout -b assessment/<first>-<last>
 ```
 
-### Run the startup script
+### Run the startup script for full stack candidates
 
 Navigate your shell to the project directory and run  `./run.sh` to run and tail logs for both client and server.
 
-### Notes
+### Run the startup script for front-end react candidates
+
+Navigate your shell to the project directory/todo-client and run  yarn start
+
+### Notes for Full Stack Candidates:
 - The server run will on `localhost:8080`
 - Webpack Dev Server should launch automatically in the default browsers at `localhost:3000`
 - The GUI for the H2 in-memory database can be found at `localhost:8080/todo-db`.
@@ -105,7 +114,10 @@ Navigate your shell to the project directory and run  `./run.sh` to run and tail
 - If you are using intellij, use the guide (displayed below for your convenience) [following](https://stackoverflow.com/a/45640726) to enable classpath reloading:
     -  Enable **"Build project automatically"** from Settings->Build, Execution, Deployment->Compiler
     -  Go to Registry(CMD-Shift-O, navigate to actions, and type "Registry") and enable **compiler.automake.allow.when.app.running** and **ide.windowSystem.autoShowProcessPopup**
-    
+If all loads, you should be good to go 👍
+
+### Notes for FrontEnd React Candidates:
+- Webpack Dev Server should launch automatically in the default browsers at `localhost:3000`
 If all loads, you should be good to go 👍
 
 ## Functional Requirements 
@@ -120,7 +132,7 @@ New todos are entered in the input at the top of the app. The input element shou
 preferably by using the `autofocus` input attribute. Pressing Enter creates the todo, appends it to the todo list,
 and clears the input. Make sure to `.trim()` the input and then check that it's not empty before creating a new todo.
 
-### Mark all as complete
+### Mark all as complete (optional full stack candidates.  required for front-end react)
 
 This checkbox toggles all the todos to the same state as itself. Make sure to clear the checked state after the
 "Clear completed" button is clicked. The "Mark all as complete" checkbox should also be updated when single todo
@@ -143,7 +155,7 @@ which should be focused (`.focus()`). The edit should be saved on both blur and 
 be removed. Make sure to `.trim()` the input and then check that it's not empty. If it's empty the todo should instead
 be destroyed. If escape is pressed during the edit, the edit state should be left and any changes be discarded.
 
-### Counter
+### Counter (optional for full stack.  required for front end react)
 
 Displays the number of active todos in a pluralized form. Make sure the number is wrapped by a `<strong>` tag. 
 Also make sure to pluralize the `item` word correctly: `0 items`, `1 item`, `2 items`. Example: **2** items left
@@ -153,10 +165,14 @@ Also make sure to pluralize the `item` word correctly: `0 items`, `1 item`, `2 i
 Removes completed todos when clicked. Should be hidden when there are no completed todos.
 
 ### Persistence
-
+#### Front End React Candidates
 Your app should dynamically persist the todos to localStorage, or if you have time, you can add API support with `axios`
 and Webpack Dev Server proxying to `localhost:8080`. Make sure to use this format for the localStorage name:
 `todos`. Editing mode should not be persisted.
+#### Full Stack Candidates
+Your app should add API support with `axios`
+and Webpack Dev Server proxying to `localhost:8080`. 
+Editing mode should not be persisted.
 
 ### Routing
 
@@ -168,4 +184,4 @@ it should be hidden. Make sure the active filter is persisted on reload.
 
 ## Submissions
 
-When you are finished, push your commits to the remote.
+When you are finished, push your commits to the remote via the branch that you created for your name.
