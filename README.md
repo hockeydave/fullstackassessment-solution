@@ -82,6 +82,11 @@ npm install -global react-scripts
 ```sh
 npm install -global eslint-plugin-cypress --save-dev
 ```
+### Install `redux-devtools-extension`
+```sh
+npm install --global --save redux-devtools-extension
+yarn add redux-devtools-extension
+```
 
 ### Update `libs in todo-client`
 ```sh
